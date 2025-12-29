@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 
 const passwordSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+        index: true,
+    },
     label: {
         type: String,
         required: true,
@@ -21,6 +27,6 @@ const passwordSchema = new mongoose.Schema({
 }, { timestamps: true }
 );
 
-passwordSchema.index({ label: 1, username: 1 }, { unique: true });
+passwordSchema.index({ userId: 1, label: 1, username: 1 }, { unique: true });
 
 export const Password = mongoose.model("Password", passwordSchema)

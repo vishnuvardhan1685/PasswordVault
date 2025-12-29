@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import passwordRoutes from './routes/passwordRoutes.js';
-
+import authRoutes from './routes/authRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -23,7 +23,7 @@ app.get("/api/health", (req,res) => {
 //     });
 //     res.json({createdId: doc._id});
 // })
-
+app.use("/api/auth", authRoutes);
 app.use("/api", passwordRoutes);
 const PORT = process.env.PORT || 5000;
 

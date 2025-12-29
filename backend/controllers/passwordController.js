@@ -60,6 +60,7 @@ export async function savePassword(req, res) {
     const passwordEnc = encryptText(password);
 
     const doc = await Password.create({
+      userId: req.user.id,
       label: label.trim(),
       username: username.trim(),
       passwordEnc,
@@ -74,9 +75,9 @@ export async function savePassword(req, res) {
     });
   } catch (error) {
     if (error?.code === 11000) {
-      return res
-        .status(409)
-        .json({ message: "An entry with this label + username already exists" });
+      return res.status(409).json({
+        message: "An entry with this label + username already exists (for this user)",
+      });
     }
 
     console.error("savePassword error:", error);
@@ -86,7 +87,7 @@ export async function savePassword(req, res) {
 
 export async function getPasswords(req, res) {
   try {
-    const items = await Password.find({})
+    const items = await Password.find({ userId: req.user.id })
       .select("label username createdAt updatedAt")
       .sort({ createdAt: -1 });
 
@@ -101,7 +102,9 @@ export async function getPasswordById(req, res) {
   try {
     const { id } = req.params;
 
-    const doc = await Password.findById(id).select("label username passwordEnc createdAt updatedAt");
+    const doc = await Password.findOne({ _id: id, userId: req.user.id }).select(
+      "label username passwordEnc createdAt updatedAt"
+    );
     if (!doc) return res.status(404).json({ message: "Not found" });
 
     const password = decryptText(doc.passwordEnc);
@@ -132,18 +135,15 @@ export async function updatePassword(req, res) {
 
     const passwordEnc = encryptText(password);
 
-    const updated = await Password.findByIdAndUpdate(
-      id,
+    const updated = await Password.findOneAndUpdate(
+      { _id: id, userId: req.user.id },
       { passwordEnc },
       { new: true, runValidators: true }
     ).select("label username createdAt updatedAt");
 
     if (!updated) return res.status(404).json({ message: "Not found" });
 
-    return res.json({
-      message: "Updated",
-      item: updated,
-    });
+    return res.json({ message: "Updated", item: updated });
   } catch (error) {
     console.error("updatePassword error:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -154,7 +154,10 @@ export async function deletePassword(req, res) {
   try {
     const { id } = req.params;
 
-    const deleted = await Password.findByIdAndDelete(id).select("label username createdAt updatedAt");
+    const deleted = await Password.findOneAndDelete({ _id: id, userId: req.user.id }).select(
+      "label username createdAt updatedAt"
+    );
+
     if (!deleted) return res.status(404).json({ message: "Not found" });
 
     return res.json({ message: "Deleted", item: deleted });
