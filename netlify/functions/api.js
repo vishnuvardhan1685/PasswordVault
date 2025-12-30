@@ -33,12 +33,10 @@ const connectToDatabase = async () => {
 };
 
 // Wrap the Express app with serverless-http
-const handler = serverless(app);
+const serverlessHandler = serverless(app);
 
-export const handler_fn = async (event, context) => {
+export const handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     await connectToDatabase();
-    return handler(event, context);
+    return serverlessHandler(event, context);
 };
-
-export { handler_fn as handler };
