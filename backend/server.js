@@ -25,14 +25,42 @@ app.use(
         origin: (origin, cb) => {
             // Allow non-browser requests (curl, server-to-server)
             if (!origin) return cb(null, true);
-            // In production with a single Render service (same-origin), the browser won't send CORS.
-            // But if it does (or for debugging), allow same-origin and allowlisted origins.
+
+            // Allow same-origin for the single-service Render setup.
+            // Some browsers/proxies still include an Origin header even for same-origin requests.
+            // Compare only scheme + host (+ optional port).
+            // Example:
+            //   origin: https://passwordvault-6jpg.onrender.com
+            //   host:   passwordvault-6jpg.onrender.com
+            const host = (this && this.req && this.req.headers && this.req.headers.host)
+                ? this.req.headers.host
+                : undefined;
+            if (host) {
+                try {
+                    const o = new URL(origin);
+                    if (o.host === host) return cb(null, true);
+                } catch {
+                    // ignore parse errors; handled below
+                }
+            }
+
+            // Allow explicit allowlist (local dev, or when splitting frontend/backend)
             if (allowlist.includes(origin)) return cb(null, true);
-            return cb(new Error(`CORS blocked for origin: ${origin}`));
+
+            // Block everything else
+            return cb(null, false);
         },
         credentials: true,
     })
 );
+
+// Return a clean 403 for disallowed CORS origins instead of noisy stack traces
+app.use((err, req, res, next) => {
+    if (err && err.message && err.message.toLowerCase().includes('cors')) {
+        return res.status(403).json({ ok: false, message: 'CORS blocked' });
+    }
+    return next(err);
+});
 app.use(express.json());
 
 app.get("/api/health", (req,res) => {
