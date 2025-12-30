@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import GlassCard from '../components/GlassCard'
 import { login } from '../lib/auth'
 
 export default function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  const nextPath = new URLSearchParams(location.search).get('next') || '/vault'
   
   const { register, handleSubmit, formState: { errors } } = useForm({
     mode: 'onBlur'
@@ -18,7 +21,7 @@ export default function Login() {
     setLoading(true)
     try {
       await login({ email: data.email, password: data.password })
-      navigate('/vault')
+      navigate(nextPath)
     } catch (err) {
       setError(err?.response?.data?.message || 'Login failed')
     } finally {

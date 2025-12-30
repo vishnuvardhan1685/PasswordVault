@@ -12,4 +12,24 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status
+    if (status === 401) {
+      // If user isn't logged in or their session expired, send them to login.
+      // Keep it framework-agnostic by using location.
+      const current = window.location.pathname + window.location.search
+      const loginUrl = `/login?next=${encodeURIComponent(current)}`
+
+      // Avoid redirect loops.
+      if (!window.location.pathname.startsWith('/login')) {
+        window.location.assign(loginUrl)
+      }
+    }
+
+    return Promise.reject(error)
+  },
+)
+
 export default api
