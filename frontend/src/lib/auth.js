@@ -1,15 +1,15 @@
 import api from './api'
 
 export function getToken() {
-  return localStorage.getItem('sv_token')
+  return localStorage.getItem('pv_token')
 }
 
 export function setToken(token) {
-  localStorage.setItem('sv_token', token)
+  localStorage.setItem('pv_token', token)
 }
 
 export function clearToken() {
-  localStorage.removeItem('sv_token')
+  localStorage.removeItem('pv_token')
 }
 
 export async function login({ email, password }) {
