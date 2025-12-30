@@ -28,9 +28,9 @@ function Feature({ title, desc, icon }) {
 export default function Landing() {
   const isLoggedIn = !!getToken()
   return (
-    <div className="space-y-24 pb-20">
+    <div className="space-y-16 sm:space-y-24 pb-20">
       {/* Hero Section */}
-      <div className="grid lg:grid-cols-2 gap-16 items-center pt-10">
+      <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center pt-6 sm:pt-10">
         <div className="space-y-8">
           <div className="flex flex-wrap gap-2">
             <Badge>Military-Grade AES-256</Badge>
@@ -38,30 +38,30 @@ export default function Landing() {
             <Badge>End-to-End Encrypted</Badge>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.12]">
             Security that feels <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
               effortless.
             </span>
           </h1>
 
-          <p className="text-lg text-zinc-400 max-w-xl leading-relaxed">
+          <p className="text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed">
             Password Vault combines state-of-the-art encryption with a minimalist interface. 
             Generate unbreakable passwords and store them in a vault that only you can access.
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             {isLoggedIn ? (
               <>
                 <Link
                   to="/vault"
-                  className="px-8 py-4 rounded-2xl bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-4 rounded-2xl bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-center"
                 >
                   Open My Vault
                 </Link>
                 <Link
                   to="/generator"
-                  className="px-8 py-4 rounded-2xl bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all font-medium"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-4 rounded-2xl bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all font-medium text-center"
                 >
                   Generate Password
                 </Link>
@@ -70,13 +70,13 @@ export default function Landing() {
               <>
                 <Link
                   to="/signup"
-                  className="px-8 py-4 rounded-2xl bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-4 rounded-2xl bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.3)] text-center"
                 >
                   Get Started for Free
                 </Link>
                 <Link
                   to="/generator"
-                  className="px-8 py-4 rounded-2xl bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all font-medium"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-4 rounded-2xl bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all font-medium text-center"
                 >
                   Try Generator
                 </Link>
@@ -102,7 +102,7 @@ export default function Landing() {
           {/* Decorative Glow */}
           <div className="absolute -inset-4 bg-emerald-500/20 blur-3xl rounded-full" />
           
-          <GlassCard className="p-8 relative border-emerald-500/20">
+          <GlassCard className="p-6 sm:p-8 relative border-emerald-500/20">
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-white font-semibold text-lg">Password Vault</h2>
@@ -140,7 +140,7 @@ export default function Landing() {
       </div>
 
       {/* Features Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
         <Feature 
           icon="⚡️"
           title="Instant Generation"
@@ -160,7 +160,7 @@ export default function Landing() {
 
       {/* Bottom CTA */}
       {!isLoggedIn && (
-        <GlassCard className="p-12 text-center space-y-6 bg-gradient-to-b from-white/5 to-emerald-500/5 border-emerald-500/20">
+        <GlassCard className="p-8 sm:p-12 text-center space-y-6 bg-gradient-to-b from-white/5 to-emerald-500/5 border-emerald-500/20">
           <h2 className="text-3xl font-bold text-white">Ready to secure your digital life?</h2>
           <p className="text-zinc-400 max-w-2xl mx-auto">
             Join thousands of users who trust Password Vault for their sensitive information. 
@@ -168,7 +168,7 @@ export default function Landing() {
           </p>
           <Link
             to="/signup"
-            className="inline-block px-10 py-4 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all hover:scale-105"
+            className="inline-block w-full sm:w-auto px-10 py-4 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all hover:scale-105 text-center"
           >
             Create Your Vault
           </Link>
@@ -176,22 +176,22 @@ export default function Landing() {
       )}
       
       {isLoggedIn && (
-        <GlassCard className="p-12 text-center space-y-6 bg-gradient-to-b from-white/5 to-emerald-500/5 border-emerald-500/20">
+        <GlassCard className="p-8 sm:p-12 text-center space-y-6 bg-gradient-to-b from-white/5 to-emerald-500/5 border-emerald-500/20">
           <h2 className="text-3xl font-bold text-white">Welcome back to Password Vault!</h2>
           <p className="text-zinc-400 max-w-2xl mx-auto">
             Your passwords are safely encrypted and ready to access. 
             Generate new passwords or manage your existing vault entries.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center flex-wrap">
             <Link
               to="/vault"
-              className="inline-block px-10 py-4 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all hover:scale-105"
+              className="inline-block w-full sm:w-auto px-10 py-4 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all hover:scale-105 text-center"
             >
               Go to Vault
             </Link>
             <Link
               to="/generator"
-              className="inline-block px-10 py-4 rounded-2xl bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition-all hover:scale-105"
+              className="inline-block w-full sm:w-auto px-10 py-4 rounded-2xl bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition-all hover:scale-105 text-center"
             >
               Generate Password
             </Link>

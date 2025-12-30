@@ -23,38 +23,38 @@ function VaultRow({ item, onCopy, onReveal, onReplace, onDelete, busyId }) {
   const busy = busyId === item._id
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 flex items-center justify-between gap-4">
+    <div className="rounded-2xl border border-white/10 bg-white/5 px-3 sm:px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
       <div className="min-w-0">
         <div className="text-sm text-white truncate">{item.label}</div>
         <div className="text-xs text-zinc-400 truncate">{item.username}</div>
       </div>
 
-      <div className="flex items-center gap-2 flex-wrap justify-end">
+      <div className="flex items-center gap-2 flex-wrap justify-start sm:justify-end w-full sm:w-auto">
         <button
           onClick={() => onReveal(item._id)}
           disabled={busy}
-          className="px-3 py-2 rounded-xl text-xs bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition disabled:opacity-50"
+          className="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition disabled:opacity-50"
         >
           Reveal
         </button>
         <button
           onClick={() => onCopy(item._id)}
           disabled={busy}
-          className="px-3 py-2 rounded-xl text-xs bg-emerald-500/15 text-emerald-200 border border-emerald-400/20 hover:bg-emerald-500/20 transition disabled:opacity-50"
+          className="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs bg-emerald-500/15 text-emerald-200 border border-emerald-400/20 hover:bg-emerald-500/20 transition disabled:opacity-50"
         >
           Copy
         </button>
         <button
           onClick={() => onReplace(item._id)}
           disabled={busy}
-          className="px-3 py-2 rounded-xl text-xs bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition disabled:opacity-50"
+          className="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition disabled:opacity-50"
         >
           Replace
         </button>
         <button
           onClick={() => onDelete(item._id)}
           disabled={busy}
-          className="px-3 py-2 rounded-xl text-xs bg-red-500/10 text-red-200 border border-red-500/20 hover:bg-red-500/15 transition disabled:opacity-50"
+          className="flex-1 sm:flex-none px-3 py-2 rounded-xl text-xs bg-red-500/10 text-red-200 border border-red-500/20 hover:bg-red-500/15 transition disabled:opacity-50"
         >
           Delete
         </button>
@@ -221,9 +221,9 @@ export default function Vault() {
 
       <div className="grid lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-start sm:items-center justify-between gap-4 flex-wrap">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-white">Your Vault</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Your Vault</h2>
               <p className="text-zinc-400 mt-1">Manage and protect your digital identities.</p>
             </div>
             <div className="flex gap-3">

@@ -31,7 +31,7 @@ export default function Signup() {
 
   return (
     <div className="max-w-md mx-auto">
-      <GlassCard className="p-6 md:p-8">
+      <GlassCard className="p-5 sm:p-6 md:p-8">
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold">Create account</h2>
           <p className="text-sm text-zinc-400">Your vault is per-user and encrypted.</p>

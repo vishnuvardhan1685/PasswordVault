@@ -85,7 +85,7 @@ export default function Generator() {
   }
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto">
+    <div className="space-y-10 sm:space-y-12 max-w-5xl mx-auto">
       <div className="text-center space-y-4">
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">Advanced Generator</h2>
         <p className="text-zinc-400 max-w-2xl mx-auto">
@@ -101,7 +101,7 @@ export default function Generator() {
             <h3 className="font-semibold text-white">Configuration</h3>
           </div>
           
-          <GlassCard className="p-8 space-y-8 border-emerald-500/10">
+          <GlassCard className="p-6 sm:p-8 space-y-8 border-emerald-500/10">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="text-sm font-medium text-zinc-300">Password Length</div>
@@ -145,25 +145,25 @@ export default function Generator() {
             <h3 className="font-semibold text-white">Vault Integration</h3>
           </div>
 
-          <GlassCard className="p-8 space-y-6 border-blue-500/10">
+          <GlassCard className="p-6 sm:p-8 space-y-6 border-blue-500/10">
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000"></div>
-              <div className="relative rounded-2xl border border-white/10 bg-black/50 px-6 py-6 font-mono text-lg break-all min-h-[84px] flex items-center justify-center text-center text-emerald-300">
+              <div className="relative rounded-2xl border border-white/10 bg-black/50 px-4 sm:px-6 py-6 font-mono text-base sm:text-lg break-all min-h-[84px] flex items-center justify-center text-center text-emerald-300">
                 {generated ? generated : <span className="text-zinc-600 italic text-base">Generated output will appear here</span>}
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={onCopy}
                 disabled={!generated}
-                className="flex-1 px-4 py-3 rounded-xl bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full sm:flex-1 px-4 py-3 rounded-xl bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 <span>📋</span> Copy
               </button>
               <button
                 onClick={() => setGenerated('')}
-                className="flex-1 px-4 py-3 rounded-xl bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition flex items-center justify-center gap-2"
+                className="w-full sm:flex-1 px-4 py-3 rounded-xl bg-white/5 text-zinc-200 border border-white/10 hover:bg-white/10 transition flex items-center justify-center gap-2"
               >
                 <span>🗑️</span> Clear
               </button>

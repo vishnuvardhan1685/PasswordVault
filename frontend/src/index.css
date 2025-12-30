@@ -15,6 +15,14 @@
     font-size: 110%;
   }
 
+  /* Mobile: 110% can feel too large and cause wrapping/overflow.
+     Keep the nicer desktop sizing, but slightly reduce on small screens. */
+  @media (max-width: 640px) {
+    html {
+      font-size: 100%;
+    }
+  }
+
   html,
   body,
   #root {
@@ -27,6 +35,11 @@
       "Apple Color Emoji", "Segoe UI Emoji";
     background: rgb(var(--bg));
     color: rgb(var(--text));
+    /* Prevent accidental horizontal scroll on mobile */
+    overflow-x: hidden;
+    /* Respect iOS safe areas */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 }
 

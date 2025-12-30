@@ -33,7 +33,7 @@ export default function AppShell() {
       <div className="pointer-events-none fixed inset-0 [background:radial-gradient(900px_circle_at_20%_10%,rgba(34,197,94,0.18),transparent_55%),radial-gradient(900px_circle_at_80%_30%,rgba(59,130,246,0.10),transparent_55%)]" />
 
       <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/40 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-3 sm:px-4 py-4 flex items-center justify-between">
+        <div className="mx-auto max-w-7xl px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-2xl bg-white/10 border border-white/10 grid place-items-center">
               <span className="text-emerald-300 font-semibold">PV</span>
@@ -49,7 +49,7 @@ export default function AppShell() {
             <NavItem to="/vault">Vault</NavItem>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {!token ? (
               <>
                 <Link
@@ -60,7 +60,7 @@ export default function AppShell() {
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-3 py-2 rounded-xl text-sm bg-emerald-500/15 text-emerald-200 border border-emerald-400/20 hover:bg-emerald-500/20 transition"
+                  className="px-3 py-2 rounded-xl text-sm bg-emerald-500/15 text-emerald-200 border border-emerald-400/20 hover:bg-emerald-500/20 transition whitespace-nowrap"
                 >
                   Sign up
                 </Link>
@@ -77,9 +77,36 @@ export default function AppShell() {
         </div>
       </header>
 
-      <main className="relative mx-auto max-w-7xl px-3 sm:px-4 py-10 animate-enter">
+      {/* Extra bottom padding so content isn't hidden behind mobile bottom nav */}
+      <main className="relative mx-auto max-w-7xl px-3 sm:px-4 py-8 sm:py-10 pb-24 md:pb-10 animate-enter">
         <Outlet />
       </main>
+
+      {/* Mobile bottom nav (phones) */}
+      <nav className="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-md">
+        <div className="rounded-2xl border border-white/10 bg-zinc-950/70 backdrop-blur-xl shadow-2xl px-2 py-2 flex items-center justify-between">
+          <NavLink
+            to="/generator"
+            className={({ isActive }) =>
+              `flex-1 mx-1 px-3 py-3 rounded-xl text-sm text-center transition ${
+                isActive ? 'bg-white/10 text-white' : 'text-zinc-300 hover:text-white hover:bg-white/5'
+              }`
+            }
+          >
+            Generator
+          </NavLink>
+          <NavLink
+            to="/vault"
+            className={({ isActive }) =>
+              `flex-1 mx-1 px-3 py-3 rounded-xl text-sm text-center transition ${
+                isActive ? 'bg-white/10 text-white' : 'text-zinc-300 hover:text-white hover:bg-white/5'
+              }`
+            }
+          >
+            Vault
+          </NavLink>
+        </div>
+      </nav>
 
       <footer className="relative border-t border-white/10 mt-20">
         <div className="mx-auto max-w-7xl px-3 sm:px-4 py-12">
