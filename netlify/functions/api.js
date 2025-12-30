@@ -9,7 +9,14 @@ import authRoutes from '../../backend/routes/authRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+// Same-origin in Netlify means CORS isn't needed for the browser, but keeping
+// it enabled helps debugging and avoids issues with tools.
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
 app.use(express.json());
 
 // Health check
