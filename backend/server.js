@@ -54,20 +54,37 @@ app.use("/api", passwordRoutes);
 // --- Serve frontend build (Render single-service deployment) ---
 // After build, Vite outputs to: <repo>/frontend/dist
 const frontendDistPath = path.resolve(__dirname, '..', 'frontend', 'dist');
-app.use(express.static(frontendDistPath));
+// Serve Vite assets explicitly (avoid SPA fallback returning HTML for these)
+app.use(
+    '/assets',
+    express.static(path.join(frontendDistPath, 'assets'), {
+        fallthrough: false,
+        immutable: true,
+        maxAge: '1y',
+    })
+);
 
-// SPA fallback: any non-API route should return the React app
-app.get(/^(?!\/api).*/, (req, res) => {
+// Serve the rest of the dist folder (index.html, vite.svg, etc.)
+app.use(
+    express.static(frontendDistPath, {
+        fallthrough: true,
+    })
+);
+
+// SPA fallback: any non-API, non-asset route should return the React app
+app.get(/^(?!\/api)(?!\/assets)(?!\/favicon\.ico).*/, (req, res) => {
     res.sendFile(path.join(frontendDistPath, 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
 
-async function start(){
-    await connectDB();
-    app.listen(PORT, () => {
-        console.log('Server is running on port ' + PORT);
-    });
-}
+// Start listening even if DB is temporarily down.
+// This prevents Render (or clients) from seeing generic 500 HTML responses for static assets
+// during boot/reconnect windows.
+app.listen(PORT, () => {
+    console.log('Server is running on port ' + PORT);
+});
 
-start();
+connectDB().catch((err) => {
+    console.error('Initial DB connection failed. Server is still running; API calls may fail until DB reconnects.', err);
+});
