@@ -34,12 +34,53 @@ npm run dev
 
 ---
 
+## Deploy on Render (Recommended)
+
+This project deploys cleanly on Render as **two services**:
+
+1) **Backend** = Render *Web Service* (Node/Express)  
+2) **Frontend** = Render *Static Site* (Vite build)
+
+### A) Backend (Render Web Service)
+
+1. In Render: **New +** → **Web Service** → connect your GitHub repo.
+2. Configure:
+  - **Root Directory:** `backend`
+  - **Runtime:** Node
+  - **Build Command:** `npm install`
+  - **Start Command:** `npm start`
+3. Add Environment Variables (Render dashboard):
+  - `MONGODB_URI` = your MongoDB Atlas URI
+  - `JWT_SECRET` = 32+ char random string
+  - `VAULT_ENCRYPTION_KEY` = exactly 32 chars
+  - `NODE_ENV` = `production`
+  - `CORS_ORIGIN` = your Render frontend URL (example: `https://password-vault-frontend.onrender.com`)
+4. Deploy. Copy the backend URL (example: `https://password-vault-api.onrender.com`).
+
+### B) Frontend (Render Static Site)
+
+1. In Render: **New +** → **Static Site** → connect the same GitHub repo.
+2. Configure:
+  - **Root Directory:** `frontend`
+  - **Build Command:** `npm install && npm run build`
+  - **Publish Directory:** `dist`
+3. Add Environment Variables:
+  - `VITE_API_BASE_URL` = `https://<YOUR-BACKEND>.onrender.com/api`
+4. Deploy.
+
+### C) Post-deploy sanity checks
+
+- Visit: `https://<YOUR-BACKEND>.onrender.com/api/health`
+- Signup in the frontend and confirm you can login.
+
+> Note: Netlify configs are still present in the repo from earlier attempts, but Render deployment does not use them.
+
 ## Working Features
 
 ### Authentication
 - **Signup:** Create account with email validation and password confirmation
   - Email must be valid format
-  - Password must be at least 6 characters
+  - Password must be at least 8 characters
   - Confirm password must match
   - Form validation with React Hook Form
 - **Login:** Authenticate with email and password

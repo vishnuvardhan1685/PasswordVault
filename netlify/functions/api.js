@@ -25,8 +25,12 @@ app.get("/api/health", (req, res) => {
 });
 
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api", passwordRoutes);
+// Netlify's function bundler may wrap ESM default exports as `{ default: ... }`.
+// Express expects a function (router), so unwrap if needed.
+const unwrapDefault = (m) => (m && typeof m === 'object' && 'default' in m ? m.default : m);
+
+app.use("/api/auth", unwrapDefault(authRoutes));
+app.use("/api", unwrapDefault(passwordRoutes));
 
 // Connect to DB before handling requests
 let isConnected = false;
