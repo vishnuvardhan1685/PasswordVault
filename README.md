@@ -36,42 +36,32 @@ npm run dev
 
 ## Deploy on Render (Recommended)
 
-This project deploys cleanly on Render as **two services**:
+This repo is set up for a **single Render Web Service** (one deploy) that serves:
 
-1) **Backend** = Render *Web Service* (Node/Express)  
-2) **Frontend** = Render *Static Site* (Vite build)
+- **API** under `/api/*`
+- **Frontend** from `frontend/dist` (Vite build) with SPA fallback
 
-### A) Backend (Render Web Service)
+### A) Create the Render Web Service
 
 1. In Render: **New +** → **Web Service** → connect your GitHub repo.
 2. Configure:
-  - **Root Directory:** `backend`
+  - **Root Directory:** *(leave blank)* (repo root)
   - **Runtime:** Node
-  - **Build Command:** `npm install`
+  - **Build Command:** `npm install && npm run build`
   - **Start Command:** `npm start`
 3. Add Environment Variables (Render dashboard):
   - `MONGODB_URI` = your MongoDB Atlas URI
   - `JWT_SECRET` = 32+ char random string
   - `VAULT_ENCRYPTION_KEY` = exactly 32 chars
   - `NODE_ENV` = `production`
-  - `CORS_ORIGIN` = your Render frontend URL (example: `https://password-vault-frontend.onrender.com`)
-4. Deploy. Copy the backend URL (example: `https://password-vault-api.onrender.com`).
-
-### B) Frontend (Render Static Site)
-
-1. In Render: **New +** → **Static Site** → connect the same GitHub repo.
-2. Configure:
-  - **Root Directory:** `frontend`
-  - **Build Command:** `npm install && npm run build`
-  - **Publish Directory:** `dist`
-3. Add Environment Variables:
-  - `VITE_API_BASE_URL` = `https://<YOUR-BACKEND>.onrender.com/api`
+  - `CORS_ORIGIN` = *(optional; usually not needed for single-service same-origin)*
 4. Deploy.
 
-### C) Post-deploy sanity checks
+### B) Post-deploy sanity checks
 
-- Visit: `https://<YOUR-BACKEND>.onrender.com/api/health`
-- Signup in the frontend and confirm you can login.
+- Visit: `https://<YOUR-SERVICE>.onrender.com/api/health`
+- Visit the root URL and confirm the React app loads.
+- Signup/login and confirm you can save/view passwords in the vault.
 
 > Note: Netlify configs are still present in the repo from earlier attempts, but Render deployment does not use them.
 
@@ -140,7 +130,7 @@ This project deploys cleanly on Render as **two services**:
   - Inline error messages below fields
 - **Signup Form:**
   - Email validation (required, pattern matching)
-  - Password validation (required, min 6 characters)
+  - Password validation (required, min 8 characters)
   - Confirm password validation (must match)
   - Inline error messages
 - **Generator Form:**
